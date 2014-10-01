@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/1payrepos/!svn/ver/1025/1paySearch/dynacache/vn/onepay/cache/dynacache/impl
+END
+HttpCacheItemAsyncFeedImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/1payrepos/!svn/ver/1025/1paySearch/dynacache/vn/onepay/cache/dynacache/impl/HttpCacheItemAsyncFeedImpl.java
+END
+HttpCacheItemFeedImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/1payrepos/!svn/ver/1025/1paySearch/dynacache/vn/onepay/cache/dynacache/impl/HttpCacheItemFeedImpl.java
+END
+ParalellCacheItemFeedHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/1payrepos/!svn/ver/1025/1paySearch/dynacache/vn/onepay/cache/dynacache/impl/ParalellCacheItemFeedHelper.java
+END
+HttpByteCacheItemAsyncFeedImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/1payrepos/!svn/ver/1025/1paySearch/dynacache/vn/onepay/cache/dynacache/impl/HttpByteCacheItemAsyncFeedImpl.java
+END
+HttpByteCacheItemFeedImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/1payrepos/!svn/ver/1025/1paySearch/dynacache/vn/onepay/cache/dynacache/impl/HttpByteCacheItemFeedImpl.java
+END

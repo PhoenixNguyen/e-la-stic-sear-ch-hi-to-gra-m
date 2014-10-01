@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities
+END
+Contact.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/Contact.java
+END
+Product.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/Product.java
+END
+Author.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/Author.java
+END
+GirlFriend.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/GirlFriend.java
+END
+Book.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/Book.java
+END
+Manuscript.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/Manuscript.java
+END
+PersonMultipleLevelNested.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/PersonMultipleLevelNested.java
+END
+Role.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/Role.java
+END
+Article.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/Article.java
+END
+Person.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/Person.java
+END
+ArticleBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/ArticleBuilder.java
+END
+Car.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/1payrepos/!svn/ver/1028/1paySearch/test/org/springframework/data/elasticsearch/entities/Car.java
+END

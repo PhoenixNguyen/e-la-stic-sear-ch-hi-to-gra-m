@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/data/elasticsearch http://www.springframework.org/schema/data/elasticsearch/spring-elasticsearch-1.0.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    "
+    xmlns:elasticsearch="http://www.springframework.org/schema/data/elasticsearch"
+    >
+
+    <context:component-scan base-package="main.repositories" />
+
+    <elasticsearch:transport-client id="client" cluster-name="elasticsearch" cluster-nodes="123.30.238.22:9300"/>
+    <bean name="elasticsearchTemplate" class="org.springframework.data.elasticsearch.core.ElasticsearchTemplate">
+        <constructor-arg name="client" ref="client"/>
+    </bean>
+    
+    <bean id="elasticSearch" class="vn.onepay.search.elastic.impl.ElasticSearchImpl">
+		
+		<property name="elasticsearchTemplate" ref="elasticsearchTemplate" />
+	</bean>
+	
+	<elasticsearch:repositories base-package="main.repositories" />
+	
+	<bean id="cardCdrService" class="main.repositories.CardCdrService" scope="prototype" >
+        <property name="cardCdrRepository" ref="cardCdrRepository"></property>
+     </bean>
+</beans>

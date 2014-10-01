@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/1payrepos/!svn/ver/1024/1paySearch/account-manager/vn/onepay/account/dao
+END
+AccountDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/1payrepos/!svn/ver/1024/1paySearch/account-manager/vn/onepay/account/dao/AccountDAO.java
+END
+IdentityDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/1payrepos/!svn/ver/1024/1paySearch/account-manager/vn/onepay/account/dao/IdentityDAO.java
+END
+BillingInformationDAO.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/1payrepos/!svn/ver/1024/1paySearch/account-manager/vn/onepay/account/dao/BillingInformationDAO.java
+END

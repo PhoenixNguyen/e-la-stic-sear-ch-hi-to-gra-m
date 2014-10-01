@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/1payrepos/!svn/ver/1030/1paySearch/WebContent/WEB-INF
+END
+dynacache-memserver-application-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/1payrepos/!svn/ver/1030/1paySearch/WebContent/WEB-INF/dynacache-memserver-application-context.xml
+END
+elastic-config.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/1payrepos/!svn/ver/1030/1paySearch/WebContent/WEB-INF/elastic-config.xml
+END
+mongo-config.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/1payrepos/!svn/ver/1030/1paySearch/WebContent/WEB-INF/mongo-config.xml
+END
+dynacache-redis-application-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/1payrepos/!svn/ver/1030/1paySearch/WebContent/WEB-INF/dynacache-redis-application-context.xml
+END
+provider-profile-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/1payrepos/!svn/ver/1030/1paySearch/WebContent/WEB-INF/provider-profile-context.xml
+END
+1pay-servlet.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/1payrepos/!svn/ver/1084/1paySearch/WebContent/WEB-INF/1pay-servlet.xml
+END
+dynacache-application-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/1payrepos/!svn/ver/1030/1paySearch/WebContent/WEB-INF/dynacache-application-context.xml
+END
+web.xml
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/1payrepos/!svn/ver/1030/1paySearch/WebContent/WEB-INF/web.xml
+END

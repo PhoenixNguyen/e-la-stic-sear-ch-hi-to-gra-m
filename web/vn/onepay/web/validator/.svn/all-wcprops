@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/1payrepos/!svn/ver/1029/1paySearch/web/vn/onepay/web/validator
+END
+OTPAuthenticationValidator.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/1payrepos/!svn/ver/1029/1paySearch/web/vn/onepay/web/validator/OTPAuthenticationValidator.java
+END
+LoginValidator.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/1payrepos/!svn/ver/1029/1paySearch/web/vn/onepay/web/validator/LoginValidator.java
+END
+JCaptchaValidator.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/1payrepos/!svn/ver/1029/1paySearch/web/vn/onepay/web/validator/JCaptchaValidator.java
+END

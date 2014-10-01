@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/1payrepos/!svn/ver/1026/1paySearch/elastic-search/main
+END
+mongo-config.xml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/1payrepos/!svn/ver/1026/1paySearch/elastic-search/main/mongo-config.xml
+END
+elastic-repository-config.xml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/1payrepos/!svn/ver/1026/1paySearch/elastic-search/main/elastic-repository-config.xml
+END
+Main.java
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/1payrepos/!svn/ver/1026/1paySearch/elastic-search/main/Main.java
+END
