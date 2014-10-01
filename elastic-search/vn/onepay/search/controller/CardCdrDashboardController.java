@@ -40,11 +40,6 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 		this.elasticSearch = elasticSearch;
 	}
 
-	private int limit;
-	public void setLimit(int limit) {
-	    this.limit = limit;
-	}
-	
 	@Override
 	protected ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse response, ModelMap model) throws Exception {
@@ -53,6 +48,10 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 		Account account = (Account)request.getSession().getAttribute("account_logined");
 		
 		model.put("status", Arrays.asList(new Integer[]{0, 1, 2}));
+		
+		model.put(SUCCESS_STATUS, Arrays.asList(new String[]{ChargeStatus.SUCCESS_STATUS}));
+		model.put(ERROR_STATUS, ChargeStatus.ALL_CHARGING_ERROR_STATUS);
+		model.put(WRONG_STATUS, ChargeStatus.ALL_CHARGING_WRONG_STATUS);
 		
 		//Option param 
 		String time_search = StringUtils.trimToEmpty(request.getParameter("time_search"));

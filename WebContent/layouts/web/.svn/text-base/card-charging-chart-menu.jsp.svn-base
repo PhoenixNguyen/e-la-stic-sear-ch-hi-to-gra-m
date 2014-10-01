@@ -71,29 +71,30 @@
 <div class="left_cat">
 	<ul class="sub_cat">
 		<c:forEach items="${model.fieldMaps }" var="map">
-		
-			<li class="scope_search"><a href="#" class="search"><b>${map.value }:</b>  <br/></a>
-				<ul>
-					<c:forEach items="${model.facetsMap[map.key] }" var="item">
-					
-						<li>
-							<c:if test="${item.getCount() != 0}">
-								<a href="javascript:{}" class="${map.key } ${param[map.key] == item.getTerm()?'slc_link':''}" ${map.key }="${item.getTerm() }" >${item.getTerm() } 
-									<c:if test="${item.getCount() != 0}">&nbsp(${item.getCount()})</c:if>	
-								 </a>
-							</c:if>
-							<c:if test="${item.getCount() == 0}">
-								<span class="option_selected ${param[map.key] == item.getTerm()?'slc_link':''}" " >${item.getTerm() } 
-									<c:if test="${item.getCount() != 0}">&nbsp(${item.getCount()})</c:if>
-									&nbsp<c:if test="${item.getCount() == 0}"><a href="javascript:{}" class="filter" filter="${map.key }"><img src="<%=request.getContextPath() %>/images/cross.png" title="Xóa lọc" /></a></c:if>	
-								 </span>
-							</c:if>
-						 
-						</li>
-					</c:forEach>
-					
-				</ul>
-			</li>
+			<c:if test="${map.key != 'status' }">
+				<li class="scope_search"><a href="#" class="search"><b>${map.value }:</b>  <br/></a>
+					<ul>
+						<c:forEach items="${model.facetsMap[map.key] }" var="item">
+							
+							<li>
+								<c:if test="${item.getCount() != 0}">
+									<a href="javascript:{}" class="${map.key } ${param[map.key] == item.getTerm()?'slc_link':''}" ${map.key }="${item.getTerm() }" >${item.getTerm() } 
+										<c:if test="${item.getCount() != 0}">&nbsp(${item.getCount()})</c:if>	
+									 </a>
+								</c:if>
+								<c:if test="${item.getCount() == 0}">
+									<span class="option_selected ${param[map.key] == item.getTerm()?'slc_link':''}" " >${item.getTerm() } 
+										<c:if test="${item.getCount() != 0}">&nbsp(${item.getCount()})</c:if>
+										&nbsp<c:if test="${item.getCount() == 0}"><a href="javascript:{}" class="filter" filter="${map.key }"><img src="<%=request.getContextPath() %>/images/cross.png" title="Xóa lọc" /></a></c:if>	
+									 </span>
+								</c:if>
+							 
+							</li>
+						</c:forEach>
+						
+					</ul>
+				</li>
+			</c:if>
 		</c:forEach>
 	</ul>
 </div>

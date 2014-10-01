@@ -43,7 +43,7 @@ card-charging-chart-menu.jsp
 K 25
 svn:wc:ra_dav:version-url
 V 87
-/1payrepos/!svn/ver/1083/1paySearch/WebContent/layouts/web/card-charging-chart-menu.jsp
+/1payrepos/!svn/ver/1088/1paySearch/WebContent/layouts/web/card-charging-chart-menu.jsp
 END
 card-charging.jsp
 K 25
@@ -63,12 +63,6 @@ svn:wc:ra_dav:version-url
 V 68
 /1payrepos/!svn/ver/1030/1paySearch/WebContent/layouts/web/index.jsp
 END
-card-charging-chart2.jsp
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/1payrepos/!svn/ver/1083/1paySearch/WebContent/layouts/web/card-charging-chart2.jsp
-END
 chart.lib.jsp
 K 25
 svn:wc:ra_dav:version-url
@@ -79,13 +73,7 @@ card-charging-chart.js.jsp
 K 25
 svn:wc:ra_dav:version-url
 V 85
-/1payrepos/!svn/ver/1083/1paySearch/WebContent/layouts/web/card-charging-chart.js.jsp
-END
-card-charging-chart.js2.jsp
-K 25
-svn:wc:ra_dav:version-url
-V 86
-/1payrepos/!svn/ver/1083/1paySearch/WebContent/layouts/web/card-charging-chart.js2.jsp
+/1payrepos/!svn/ver/1089/1paySearch/WebContent/layouts/web/card-charging-chart.js.jsp
 END
 footer.jsp
 K 25
@@ -99,17 +87,11 @@ svn:wc:ra_dav:version-url
 V 71
 /1payrepos/!svn/ver/1030/1paySearch/WebContent/layouts/web/otp_auth.jsp
 END
-card-charging-chart-search-menu2.jsp
-K 25
-svn:wc:ra_dav:version-url
-V 95
-/1payrepos/!svn/ver/1083/1paySearch/WebContent/layouts/web/card-charging-chart-search-menu2.jsp
-END
 card-charging-chart.jsp
 K 25
 svn:wc:ra_dav:version-url
 V 82
-/1payrepos/!svn/ver/1083/1paySearch/WebContent/layouts/web/card-charging-chart.jsp
+/1payrepos/!svn/ver/1089/1paySearch/WebContent/layouts/web/card-charging-chart.jsp
 END
 home.jsp
 K 25

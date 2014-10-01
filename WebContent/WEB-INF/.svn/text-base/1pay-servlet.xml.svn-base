@@ -80,12 +80,6 @@
 	<bean name="/protected/card-dashboard.html" class="vn.onepay.search.controller.CardCdrDashboardController" parent ="/protected/abstract.html">
 		<property name="webView" value="card-charging-chart"/>
 		<property name="elasticSearch" ref="elasticSearch"/>
-		<property name="limit" value="20"/>
-	</bean>
-	<bean name="/protected/card-dashboard2.html" class="vn.onepay.search.controller.CardDashboardController2" parent ="/protected/abstract.html">
-		<property name="webView" value="card-charging-chart2"/>
-		<property name="elasticSearch" ref="elasticSearch"/>
-		<property name="limit" value="20"/>
 	</bean>
 	<!-- /NEW -->
    <!--

@@ -250,17 +250,20 @@ $(function(){
 								</div>
 							</div>
 							
-							<script>
-								//load 1st
-								var filter_merchant;
-								var merchant_permission = [];
-								var filter_provider = [];
-								var filter_card_type = [];
-								var statusSuccess = ['00'];
-								var statusError = ['01', '02', '03', '04', '05', '06', '16', '17', '18', '19', '20', '21', '22', '23', '99'];
-								var statusWrong = ['07', '08', '09', '10', '11', '12', '13', '14', '15'];
-								
-							</script>
+							<c:choose>
+								<c:when test="${model.total > 0}">
+									<span class="pagebanner"> Tổng cộng có ${model.total} kết quả tìm thấy. 
+										&nbsp(Thời gian tìm kiếm ${model.timeHandleTotal /1000.0} giây)
+									</span>
+								</c:when>
+								<c:otherwise>
+									<span class="pagebanner"> 
+										Không có kết quả nào được tìm thấy
+									</span>
+								</c:otherwise>
+							</c:choose>
+							
+							<br/>
 							<!-- End Filter -->
 							
 							<!-- LINE CHART -->

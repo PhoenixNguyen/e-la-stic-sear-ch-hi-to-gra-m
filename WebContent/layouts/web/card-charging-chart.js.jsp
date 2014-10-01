@@ -4,9 +4,6 @@
 
 <script>
 	var listAll = [], listSuccess = [], listError = [], listWrong = [];
-	var time = '0.1h';//0.1h
-	var urlGet = 'http://localhost:9200/cardcdrs/_search?pretty=true';
-	var timeFormat = 'dd/MM/yyyy'
 
 	///////////////////////////////////////// LINE =============================================
 	<c:forEach var="item" items="${model.statusHistogramMap['successStatus'] }">
@@ -158,6 +155,18 @@
 	//End LINE
 
 	////////////////////////////////////// PIE ==================================================
+	var statusSuccess = [];
+	var statusError = [];
+	var statusWrong = [];
+	<c:forEach var="item" items="${model.successStatus }">
+		statusSuccess.push('<c:out value="${item}"/>');
+	</c:forEach>
+	<c:forEach var="item" items="${model.wrongStatus }">
+		statusWrong.push('<c:out value="${item}"/>');
+	</c:forEach>
+	<c:forEach var="item" items="${model.errorStatus }">
+		statusError.push('<c:out value="${item}"/>');
+	</c:forEach>
 	
 	var statusFacet = [], typeFacet = [], providerFacet = [], merchantFacet = [];	
 	
@@ -248,7 +257,7 @@
 					return d.term;
 				}).y(function(d) {
 					return d.count;
-				}).color(d3.scale.category10().range()) //d3.scale.category10().range()
+				}).color(d3.scale.category20().range()) //d3.scale.category10().range()
 				.width(width).height(height).labelType("percent");
 
 				d3.select(id).datum(json).transition().duration(1200).attr(
