@@ -19,7 +19,7 @@
 <script src="<%=request.getContextPath()%>/js/numeral.js" type="text/javascript"></script>
 
 <style>
-	.fieldset_filter {border: solid 1px #ccc;margin-left:20px; width: auto;}
+	.fieldset_filter {border: solid 1px #ccc;margin-left:20px; margin-bottom:20px; width: auto;}
 </style>
 
 <script type="text/javascript">
@@ -95,7 +95,7 @@ $(function(){
 	
 	.label_filter{
 		margin-left: 20px;
-		width: 120px;
+		width: 80px;
 		display: inline-block;
 	}
 	
@@ -138,7 +138,12 @@ $(function(){
 						<div class="right_content">
 							<h1 class="srv_title">Lược đồ theo thời gian</h1>
 							<!-- Filter -->
-							<div id="filter">
+							<div id="filter_locketqua">
+								<h3 class="filter_label open">
+									<a href="#">Lọc kết quả</a>
+								</h3>
+							</div>
+							<div class="box_locketqua">
 								<form action="card-dashboard.html" method="get" name="filter_histogram">
 									<c:forEach items="${model.fieldMaps }" var="map">
 									
@@ -148,6 +153,40 @@ $(function(){
 									</c:forEach>	
 									
 									<div class="filter_row">
+										<label class="label_filter">Ngày:</label>
+										<input id="time_search" maxlength="100" name="time_search" value="${param.time_search }" class="select_filter" placeholder="Chọn ngày"/>
+										<script type="text/javascript">
+											
+											$(document).ready(function(){
+												//On change
+												$('input[name=time_search]').change(function(){
+													$('form[name=filter_histogram]').submit();
+												});
+												//Enter
+												$('input[name=filter_merchant]').keydown(function(event) {
+											        if (event.keyCode == 13) {
+											            this.form.submit();
+											            return false;
+											         }
+											    });
+												var time_search = $('input[name=time_search]');
+												if(time_search.val() == '')
+												{
+													var date = new Date();
+													time_search.val(date.toString('dd/MM/yyyy'));
+												}
+											});
+											$(function() {
+											    $('#time_search').datepicker( {
+											        changeMonth: true,
+											        changeYear: true,
+											        showButtonPanel: true,
+											        dateFormat: 'dd/mm/yy'
+											    });
+											});
+										</script>
+									</div>
+									<div class="filter_row">
 										<label class="label_filter">Merchant:</label>
 										<input type="text" name="filter_merchant" class="text_filter" placeholder="Nhập tên merchant" value="${param.filter_merchant }"/>
 										
@@ -156,7 +195,7 @@ $(function(){
 										<c:forEach var="pv" items="${paramValues.filter_provider}">
 											<c:set var="allPv" value="${allPv}${pv}," />
 										</c:forEach>
-										<select id="filter_provider" class="select_filter" name="filter_provider" multiple="multiple" style="width:200px; padding: 6px;">
+										<select id="filter_provider" class="select_filter" name="filter_provider" multiple="multiple" style="width:200px; padding: 6px; margin-left: 10px;">
 										
 											<c:forEach var="provider" items="${model.facetAllsMap['paymentProvider'] }">
 												<c:set var="provider2" value=",${provider.getTerm()}," />
@@ -203,41 +242,6 @@ $(function(){
 										</fieldset>
 									</div>
 									
-									<div class="filter_row">
-										<label class="label_filter">Ngày:</label>
-										<input id="time_search" maxlength="100" name="time_search" value="${param.time_search }" class="select_filter" placeholder="Chọn ngày"/>
-										<script type="text/javascript">
-											
-											$(document).ready(function(){
-												//On change
-												$('input[name=time_search]').change(function(){
-													$('form[name=filter_histogram]').submit();
-												});
-												//Enter
-												$('input[name=filter_merchant]').keydown(function(event) {
-											        if (event.keyCode == 13) {
-											            this.form.submit();
-											            return false;
-											         }
-											    });
-												var time_search = $('input[name=time_search]');
-												if(time_search.val() == '')
-												{
-													var date = new Date();
-													time_search.val(date.toString('dd/MM/yyyy'));
-												}
-											});
-											$(function() {
-											    $('#time_search').datepicker( {
-											        changeMonth: true,
-											        changeYear: true,
-											        showButtonPanel: true,
-											        dateFormat: 'dd/mm/yy'
-											    });
-											});
-										</script>
-									</div>
-									
 									<!-- <div class="filter_row" style="text-align: center;">
 										
 						               	<input  style="margin-top: 0px;"  class="btn_greensmall" type="submit" value="Lọc" />
@@ -277,7 +281,7 @@ $(function(){
 							
 							<fieldset class="fieldset_filter">
 								<legend >
-									<label style="text-align: left;">Trạng thái</label>
+									<label style="text-align: left;"><b>Trạng thái</b></label>
 								</legend>
 								<span class="pie">
 									<svg id="status_chart" class="pie_child" ></svg>
@@ -285,21 +289,21 @@ $(function(){
 							</fieldset>
 							<fieldset class="fieldset_filter">
 								<legend>
-									Loại thẻ
+									<b>Loại thẻ</b>
 								</legend>
 								<span class="pie">
 									<svg id="type_chart" class="pie_child"></svg>
 								</span>
 							</fieldset>
 							<fieldset class="fieldset_filter">
-								<legend style="text-align: left;">Nhà cung cấp
+								<legend style="text-align: left;"><b>Nhà cung cấp</b>
 								</legend>
 								<span class="pie">
 									<svg id="provider_chart" class="pie_child"></svg>
 								</span>
 							</fieldset>
 							<fieldset class="fieldset_filter">
-								<legend>Merchant
+								<legend><b>Merchant</b>
 								</legend>
 								<span class="pie">
 									<svg id="merchant_chart" class="pie_child"></svg>

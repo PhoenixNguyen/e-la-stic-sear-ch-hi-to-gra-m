@@ -81,6 +81,7 @@
 		<property name="webView" value="card-charging-chart"/>
 		<property name="elasticSearch" ref="elasticSearch"/>
 	</bean>
+	
 	<!-- /NEW -->
    <!--
     ********************************************************************

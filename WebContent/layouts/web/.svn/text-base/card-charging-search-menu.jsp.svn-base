@@ -77,19 +77,23 @@
 					<c:forEach items="${model.facetsMap[map.key] }" var="item">
 					
 						<li>
-							<c:if test="${item.getCount() != 0}">
-								<a href="javascript:{}" class="${map.key } ${param[map.key] == item.getTerm()?'slc_link':''}" ${map.key }="${item.getTerm() }" >${item.getTerm() } 
-									<c:if test="${item.getCount() != 0}">&nbsp(${item.getCount()})</c:if>	
-								 </a>
-							</c:if>
-							<c:if test="${item.getCount() == 0}">
-								<span class="option_selected ${param[map.key] == item.getTerm()?'slc_link':''}" " >${item.getTerm() } 
-									<c:if test="${item.getCount() != 0}">&nbsp(${item.getCount()})</c:if>
-									&nbsp<c:if test="${item.getCount() == 0}"><a href="javascript:{}" class="filter" filter="${map.key }"><img src="<%=request.getContextPath() %>/images/cross.png" title="Xóa lọc" /></a></c:if>	
-								 </span>
-							</c:if>
-						 
-						</li>
+								<c:if test="${param[map.key] == null || param[map.key] == ''}">
+									<a href="javascript:{}" class="${map.key } ${param[map.key] == item.getTerm()?'slc_link':''}" ${map.key }="${item.getTerm() }" >${item.getTerm() } 
+										<c:if test="${item.getCount() != 0}">&nbsp(${item.getCount()})</c:if>	
+									 </a>
+								</c:if>
+								
+								<c:if test="${param[map.key] != ''}">
+									<span class="option_selected ${param[map.key] == item.getTerm()?'slc_link':''}" " >${param[map.key] }
+									
+										<c:if test="${param[map.key] == item.getTerm()}">
+											<a href="javascript:{}" class="filter" filter="${map.key }"><img src="<%=request.getContextPath() %>/images/cross.png" title="Xóa lọc" /></a>
+										</c:if>
+										
+									 </span>
+								</c:if>
+							 
+							</li>
 					</c:forEach>
 					
 				</ul>

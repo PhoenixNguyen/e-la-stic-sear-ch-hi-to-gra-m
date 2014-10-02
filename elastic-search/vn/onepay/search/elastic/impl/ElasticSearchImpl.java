@@ -28,6 +28,8 @@ import org.springframework.data.elasticsearch.core.facet.result.HistogramResult;
 import org.springframework.data.elasticsearch.core.facet.result.IntervalUnit;
 import org.springframework.data.elasticsearch.core.facet.result.Term;
 import org.springframework.data.elasticsearch.core.facet.result.TermResult;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -68,7 +70,7 @@ public class ElasticSearchImpl implements ElasticSearch{
 				else{
 					if(!terms.get(i).equals("")){
 						
-						termLists.add(i, Arrays.asList(new Term(terms.get(i), 0)));
+						termLists.add(i, Arrays.asList(new Term(terms.get(i), getTotalRecord(fields, terms, keywords, facetSize, clazz))));
 						//termLists.get(i).add(new Term(terms.get(i), 0));
 						
 					}
@@ -82,7 +84,6 @@ public class ElasticSearchImpl implements ElasticSearch{
 						//test
 		//				if(termLists.get(i).size() > 0)
 		//					System.out.println(termLists.get(i).get(0).getTerm() + " " +termLists.get(i).get(0).getCount());
-						
 					}
 				}
 				i++;
@@ -101,17 +102,16 @@ public class ElasticSearchImpl implements ElasticSearch{
 	}
 	
 	public <T> List<IntervalUnit> getHistogramFacet(String field, List<String> fields, List<String> terms,  Map<String , List<String>> keywords, int facetSize, Class<T> clazz){
-		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		
 		HistogramResult facet = (HistogramResult) elasticsearchTemplate.queryForPage(queryString(field, fields, terms, keywords, null, 0, 0, facetSize, QUERY_HISTOGRAM), clazz).getFacet(field);
 		
 		List<IntervalUnit> unitList =  facet.getIntervalUnit();
 		// For each entry
-		for (IntervalUnit entry : unitList) {
+		//SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		/*for (IntervalUnit entry : unitList) {
 			System.out.println("key: " + df.format(new Date(entry.getKey()))+ " count: " + entry.getCount());
 		       // Key (X-Axis)
 		       // Doc count (Y-Axis)
-		}
+		}*/
 		
         return unitList;
         
@@ -299,11 +299,19 @@ public class ElasticSearchImpl implements ElasticSearch{
 		elasticsearchTemplate.bulkIndex(indexQuerys);
 	}
 	
-	public <T> void index(String id, T object){
+	public <T> boolean exist(String id, Class<T> clazz){
+		if(elasticsearchTemplate.queryForObject(new CriteriaQuery(Criteria.where("id").is(id)), clazz) == null){
+			return false;
+		}
+		else
+			return true;
+	}
+	
+	public <T> String index(String id, T object){
 		if(object == null)
-			return;
+			return "null value";
 		
-		elasticsearchTemplate.index(new IndexQueryBuilder().withId(id).withObject(object).build());
+		return elasticsearchTemplate.index(new IndexQueryBuilder().withId(id).withObject(object).build());
 	}
 	
 	private <T> int countAllData(Class<T> clazz){

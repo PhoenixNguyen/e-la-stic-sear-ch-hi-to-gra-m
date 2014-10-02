@@ -14,7 +14,8 @@ public interface ElasticSearch {
 	public <T> boolean deleteIndex(Class<T> clazz);
 	public <T> String remove(Class<T> clazz, String id);
 	
-	public <T> void index(String id, T object);
+	public <T> boolean exist(String id, Class<T> clazz);
+	public <T> String index(String id, T object);
 	public <T> void bulkIndex(List<String> idList, List<T> objectList);
 	
 	public <T> List<List<Term>> getFacets(List<String> fields, List<String> terms, Map<String , List<String>> keywords, int facetSize, Class<T> clazz);

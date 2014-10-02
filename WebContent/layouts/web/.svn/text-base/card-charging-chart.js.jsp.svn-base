@@ -98,13 +98,13 @@
 			}
 			
 			var lineTotal = [], lineSuccess = [], lineError = [], lineWrong = [];
-			var countArr = [];
+			/* var countArr = [];
 			for(var i = 0; i < json.length; i++){
 				countArr.push(json[i].count);
-			}
+			} */
 			
 			for (var i = 0; i < json.length; i++) {
-				console.log(listError[i]);
+				//console.log(listError[i]);
 				lineTotal.push({
 					x : i,
 					y : json[i].count
@@ -177,6 +177,7 @@
 		typeFacet.push({term : '<c:out value="${item.term}"/>', count : '<c:out value="${item.count}"/>'});
 	</c:forEach>
 	<c:forEach var="item" items="${model.facetsMap['paymentProvider'] }">
+		//alert('<c:out value="${item.count}"/>');
 		providerFacet.push({term : '<c:out value="${item.term}"/>', count : '<c:out value="${item.count}"/>'});
 	</c:forEach>
 	<c:forEach var="item" items="${model.facetsMap['merchant'] }">
@@ -196,41 +197,43 @@
 			var successCount = 0;
 			var errorCount = 0;
 			var wrongCount = 0;
-
-			$.each(json, function(k, v) {
-
-				$.each(statusSuccess, function(i, item) {
-
-					if (item == v.term)
-						successCount += parseInt(v.count);
-				});
-
-				$.each(statusError, function(i, item) {
-					if (item == v.term) {
-						errorCount += parseInt(v.count);
-					}
-				});
-
-				$.each(statusWrong, function(i, item) {
-					if (item == v.term)
-						wrongCount += parseInt(v.count);
-				});
-
-			});
 			
-			statusArrays.push({
-				key : 'Thành công ',
-				value : successCount
-			});
-			statusArrays.push({
-				key : 'Thẻ lỗi ',
-				value : errorCount
-			});
-			statusArrays.push({
-				key : 'Thẻ sai ',
-				value : wrongCount
-			});
-
+			if(json != ''){
+				$.each(json, function(k, v) {
+	
+					$.each(statusSuccess, function(i, item) {
+	
+						if (item == v.term)
+							successCount += parseInt(v.count);
+					});
+	
+					$.each(statusError, function(i, item) {
+						if (item == v.term) {
+							errorCount += parseInt(v.count);
+						}
+					});
+	
+					$.each(statusWrong, function(i, item) {
+						if (item == v.term)
+							wrongCount += parseInt(v.count);
+					});
+	
+				});
+				
+				statusArrays.push({
+					key : 'Thành công ',
+					value : successCount
+				});
+				statusArrays.push({
+					key : 'Thẻ lỗi ',
+					value : errorCount
+				});
+				statusArrays.push({
+					key : 'Thẻ sai ',
+					value : wrongCount
+				});
+			}
+			
 			nv.addGraph(function() {
 				var colors = [ "#2ca02c", "#FF0000", "#DAA520" ];
 				var chart = nv.models.pieChart().x(function(d) {
@@ -251,6 +254,7 @@
 				return chart;
 			});
 		} else {
+			//alert(json);
 			nv.addGraph(function() {
 
 				var chart = nv.models.pieChart().x(function(d) {
