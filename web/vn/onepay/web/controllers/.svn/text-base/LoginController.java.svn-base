@@ -75,7 +75,7 @@ public class LoginController extends AbstractFormController {
 					}
 					if(backUrl!=null)
 						return new ModelAndView("redirect:"+backUrl);
-					return new ModelAndView("redirect:/protected/card-charging.html");
+					return new ModelAndView("redirect:/protected/card-dashboard.html");
 				}
 			}
 		} catch (Exception e) {
@@ -147,7 +147,7 @@ public class LoginController extends AbstractFormController {
 			}
 			if(backUrl!=null)
 				return new ModelAndView("redirect:"+backUrl);
-			return new ModelAndView("redirect:/protected/card-charging.html");
+			return new ModelAndView("redirect:/protected/card-dashboard.html");
 		}
 		return super.handleRequest(request, response);
 	}

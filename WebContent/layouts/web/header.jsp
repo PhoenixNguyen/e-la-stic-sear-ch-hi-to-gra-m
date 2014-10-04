@@ -4,7 +4,7 @@
 <%@ page import="vn.onepay.common.SharedConstants, vn.onepay.account.model.Account, java.lang.String"%>
 <!-- Header -->
 <div id="w_header">
-	<a href="<%=request.getContextPath()%>/protected/card-charging.html" class="logo_1pay"></a>
+	<a href="<%=request.getContextPath()%>/protected/card-dashboard.html" class="logo_1pay"></a>
 
 	<%-- <div id="nav">
 		<ul id="qm0" class="qmmc">
@@ -50,7 +50,7 @@
 			<c:otherwise>
 			<li>
 				<div class="down" id="top-login-wrapper" style="padding-top:10px;">
-				<a href="<%= request.getContextPath()%>/protected/card-charging.html"><img src="<%=request.getContextPath()%>/images/door-open-in.png"
+				<a href="<%= request.getContextPath()%>/protected/card-dashboard.html"><img src="<%=request.getContextPath()%>/images/door-open-in.png"
 						border="0" align="absmiddle" hspace="5" /> Đăng nhập</a>
 				</div>
 			</li>

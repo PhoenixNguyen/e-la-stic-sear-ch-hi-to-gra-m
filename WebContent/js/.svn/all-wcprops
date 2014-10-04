@@ -63,6 +63,12 @@ svn:wc:ra_dav:version-url
 V 63
 /1payrepos/!svn/ver/1030/1paySearch/WebContent/js/moment.min.js
 END
+jquery.countdownTimer.js
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/1payrepos/!svn/ver/1121/1paySearch/WebContent/js/jquery.countdownTimer.js
+END
 jquery-ui.js
 K 25
 svn:wc:ra_dav:version-url

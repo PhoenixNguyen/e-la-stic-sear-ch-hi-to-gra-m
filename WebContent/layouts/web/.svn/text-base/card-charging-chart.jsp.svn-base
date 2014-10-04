@@ -15,16 +15,25 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.multiselect.js"></script>
 
-<jsp:include page="chart.lib.jsp" />
+<!-- count down -->
+<%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/jquery.countdownTimer.css" /> --%>
+<!-- <script type="text/javascript" src="jquery-2.0.3.js"></script> -->
+<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery.countdownTimer.js"></script>
+
 <script src="<%=request.getContextPath()%>/js/numeral.js" type="text/javascript"></script>
+
+<jsp:include page="chart.lib.jsp" />
 
 <style>
 	.fieldset_filter {border: solid 1px #ccc;margin-left:20px; margin-bottom:20px; width: auto;}
 </style>
 
 <script type="text/javascript">
-$(function(){
+/* var th = new Date();
+alert(th.toString('dd/MM/yyyy')); */
 
+$(function(){
+	
 	$("#filter_merchant").multiselect({
 		selectedList: 4,
 		noneSelectedText: "Tất cả"
@@ -45,6 +54,21 @@ $(function(){
 </script>
 
 <style >
+	.search_ , .search_:HOVER{
+		background: url("<%=request.getContextPath()%>/images/btngreen_bg.png") repeat-x scroll center top;
+		color: #FFFFFF;
+		display: block;
+		float: right;
+		font-weight: bold;
+		height: 20px;
+		line-height: 20px;
+		padding-left: 5px;
+		padding-right: 5px;
+		border: 1px solid #39B54A;
+		border-radius: 10px;
+		text-shadow: 0 1px #20942B;
+	}
+	
 	.box_locketqua table a{
 		font-size: 14px;
 		color: #2c8f39;
@@ -107,6 +131,10 @@ $(function(){
 		width: 500px;
 	}
 	
+	#countdowntimer{
+		display: none;
+		
+	}
 </style>
 </head>
 <%
@@ -136,7 +164,16 @@ $(function(){
 						<jsp:include page="card-charging-chart-menu.jsp" />
 						
 						<div class="right_content">
+							<a href="<%=request.getContextPath() %>/protected/card-charging.html" class="search_" style="margin-right: 5px;"><span>Tìm kiếm chi tiết</span></a>
 							<h1 class="srv_title">Lược đồ theo thời gian</h1>
+							<div id="countdowntimer">
+								<i>
+									(refresh sau
+									<span id="future_date"></span>
+									giây)
+								</i>
+							</div>
+							
 							<!-- Filter -->
 							<div id="filter_locketqua">
 								<h3 class="filter_label open">
@@ -266,7 +303,11 @@ $(function(){
 									</span>
 								</c:otherwise>
 							</c:choose>
-							
+							<span style="display: block; float: right; margin-top: 10px">
+								
+								<input type="checkbox" checked="checked" id="comparation"/>
+								<label>So sánh</label>
+							</span>
 							<br/>
 							<!-- End Filter -->
 							
@@ -310,6 +351,33 @@ $(function(){
 								</span>
 							</fieldset>
 							
+							<script type="text/javascript">
+							$(function(){
+								var timeText = '<c:out value="${param.time_search}"/>';
+								var day = new Date();
+								var today = new Date(day.getFullYear() +'/' + (day.getMonth() +1) + '/' +day.getDate());
+								var timeSearch;
+								if(timeText != '')
+									timeSearch = Date.parseExact(timeText, 'dd/MM/yyyy');
+								else
+									timeSearch = today;
+								
+								if(+today === +timeSearch){
+									$('#countdowntimer').css('display', 'block');
+									$("#future_date").countdowntimer({
+																	minutes : 3,
+									                seconds : 0,
+									                size : "lg",
+									                timeUp : timeisUp
+									});
+									function timeisUp() {
+										location.reload();
+					        }
+								}
+							});
+							
+							
+							</script>
 						</div>
 					</div>
 				</div>

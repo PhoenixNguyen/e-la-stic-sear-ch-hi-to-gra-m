@@ -3,9 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script>
-	var listAll = [], listSuccess = [], listError = [], listWrong = [];
-
+	var listAll = [], listSuccess = [], listError = [], listWrong = [], limitError = [];
+	var countLimit = parseInt('<c:out value="${model.total/1000}"/>');
+	
+	var listAllLast = [], listSuccessLast = [], listErrorLast = [], listWrongLast = [], limitErrorLast = [];
+	
 	///////////////////////////////////////// LINE =============================================
+	//curr
 	<c:forEach var="item" items="${model.statusHistogramMap['successStatus'] }">
 		listSuccess.push({key : '<c:out value="${item.key}"/>', count : parseInt('<c:out value="${item.count}"/>')});
 	</c:forEach>
@@ -19,9 +23,36 @@
 		listAll.push({key : '<c:out value="${item.key}"/>', count : parseInt('<c:out value="${item.count}"/>')});
 	</c:forEach>
 	
-	draw(listAll);
-
-	function draw(json) {
+	//last
+	<c:forEach var="item" items="${model.statusHistogramMapLast['successStatus'] }">
+		listSuccessLast.push({key : '<c:out value="${item.key}"/>', count : parseInt('<c:out value="${item.count}"/>')});
+	</c:forEach>
+	<c:forEach var="item" items="${model.statusHistogramMapLast['errorStatus'] }">
+		listErrorLast.push({key : '<c:out value="${item.key}"/>', count : parseInt('<c:out value="${item.count}"/>')});
+	</c:forEach>
+	<c:forEach var="item" items="${model.statusHistogramMapLast['wrongStatus'] }">
+		listWrongLast.push({key : '<c:out value="${item.key}"/>', count : parseInt('<c:out value="${item.count}"/>')});
+	</c:forEach>
+	<c:forEach var="item" items="${model.statusHistogramMapLast['allStatus'] }">
+		listAllLast.push({key : '<c:out value="${item.key}"/>', count : parseInt('<c:out value="${item.count}"/>')});
+	</c:forEach>
+	
+	/* alert(listAllLast.length);
+	alert(listAll.length); */
+	draw(listAll, listAllLast, true);
+	
+	$(document).ready(function(){
+		$('#comparation').change('click', function(){
+			$('#line_chart svg').empty()
+			
+			var val = $(this).is(':checked');
+			draw(listAll, listAllLast, val);
+		});	
+	});
+	
+	function draw(listCrr, listLast, compare) {
+		var json = listCrr;
+		
 		var chart;
 
 		nv.addGraph(function() {
@@ -30,29 +61,21 @@
 					left : 100,
 					bottom : 100
 				},
-				x : function(d, i) {
-					return i
-				},
+				/* x : function(d, i) {
+					
+					return i;
+				},  */
 				showXAxis : true,
 				showYAxis : true,
 				transitionDuration : 250
 			});
 
-			// chart sub-models (ie. xAxis, yAxis, etc) when accessed directly, return themselves, not the parent chart, so need to chain separately
-			chart.xAxis.axisLabel("Thời gian").tickFormat(d3.format(',.1f'));
-
 			chart.yAxis.axisLabel('Số lượng').tickFormat(d3.format('d')); //,.2f
 
-			//var format = d3.time.format("%Y-%m-%d %H:%m:%s"); 
-			chart.xAxis.tickFormat(function(d) {
-				var date;
-				if(json[d].key != '')
-					date = new Date(parseInt(json[d].key));
-				else
-					date = new Date();
-				
-				return [ date.getDate(), date.getMonth() + 1 ].join('/') + " "
-						+ [ date.getHours(), date.getMinutes() ].join(':');
+			chart.xAxis
+			.rotateLabels(-20)
+			.tickFormat(function(d) {
+				return new Date(d).toString("dd/MM/yyyy HH:mm");
 			});
 			
 			d3.select('#line_chart svg').datum(generateLineCoordinates()).call(
@@ -68,89 +91,280 @@
 
 			return chart;
 		});
-
+		
+		var time_search = '<c:out value="${param.time_search}"/>';
+		//alert(time_search);
+		if(time_search == ''){
+			var day = new Date();
+			time_search = (day.getDate() <10 ?'0'+day.getDate():day.getDate()) +'/' + (day.getMonth() +1) + '/' +day.getFullYear();
+		}
+		//alert(time_search);
+		
+		var oneDayMilis = 24*60*60*1000;
+		
+		var period = 0.1; //0.1h
+		
+		var levelTimeAll = generateTemplateTimePeriod(period, time_search);
+		var levelTimeAllLast = generateTemplateTimePeriodLast(period, time_search);
+		//alert(new Date(levelTimeAllLast[1]));
+		
+		function generateTemplateTimePeriod(period, time_search){
+			//var period = 0.1;
+			var day = Date.parseExact(time_search, 'dd/MM/yyyy')//'2014/09/18'
+			//24*60 = 1440 minute
+			var hours = 24;
+			var levels = hours / period; 
+			var levelTime = [];
+			for(var i = 0; i < levels; i++){
+				//levelTime.push(new Date(day.getTime() + i*period*60*60*1000).toString('dd/MM/yyyy HH:mm'));
+				levelTime.push(day.getTime() + i*period*60*60*1000);
+			}
+			
+			return levelTime;
+		}
+		function generateTemplateTimePeriodLast(period, time_search){
+			//var period = 0.1;
+			var day = Date.parseExact(time_search, 'dd/MM/yyyy')//'2014/09/18'
+			//24*60 = 1440 minute
+			var hours = 24;
+			var levels = hours / period; 
+			var levelTime = [];
+			
+			for(var i = 0; i < levels; i++){
+				//levelTime.push(new Date(day.getTime() + i*period*60*60*1000).toString('dd/MM/yyyy HH:mm'));
+				levelTime.push(day.getTime() - oneDayMilis  + i*period*60*60*1000);
+			}
+			
+			return levelTime;
+		}
 		function generateLineCoordinates() {
-			for (var i = 0; i < json.length; i++) {
-				if ((listSuccess.length - 1) < i
-						|| json[i].key != listSuccess[i].key) {
+			//To fill missions
+			for (var i = 0; i < levelTimeAll.length; i++) {
+				limitError.push({key : levelTimeAll[i], count : countLimit});
+				
+				if (listCrr == '' || (listCrr.length - 1) < i
+						|| levelTimeAll[i] != listCrr[i].key) {
 					var blank = {
-						key : json[i].key,
+						key : levelTimeAll[i],
+						count : 0
+					};
+					
+					listCrr.splice(i, 0, blank);
+				}
+				
+				if (listSuccess == '' || (listSuccess.length - 1) < i
+						|| levelTimeAll[i] != listSuccess[i].key) {
+					var blank = {
+						key : levelTimeAll[i],
 						count : 0
 					};
 					listSuccess.splice(i, 0, blank);
 				}
-				if ((listError.length - 1) < i
-						|| json[i].key != listError[i].key) {
+				
+				if (listError == '' || (listError.length - 1) < i
+						|| levelTimeAll[i] != listError[i].key) {
 					var blank = {
-						key : json[i].key,
+						key : levelTimeAll[i],
 						count : 0
 					};
 					listError.splice(i, 0, blank);
 				}
-				if ((listWrong.length - 1) < i
-						|| json[i].key != listWrong[i].key) {
+				
+				if (listWrong == '' || (listWrong.length - 1) < i
+						|| levelTimeAll[i] != listWrong[i].key) {
 					var blank = {
-						key : json[i].key,
+						key : levelTimeAll[i],
 						count : 0
 					};
 					listWrong.splice(i, 0, blank);
 				}
+				
+				//compare
+				if(compare== true){
+					if (listLast == '' || (listLast.length - 1) < i
+							|| levelTimeAllLast[i] != listLast[i].key) {
+						var blank = {
+							key : levelTimeAllLast[i],
+							count : 0
+						};
+						
+						listLast.splice(i, 0, blank);
+					}
+					
+					if (listSuccessLast == '' || (listSuccessLast.length - 1) < i
+							|| levelTimeAllLast[i] != listSuccessLast[i].key) {
+						var blank = {
+							key : levelTimeAllLast[i],
+							count : 0
+						};
+						listSuccessLast.splice(i, 0, blank);
+					}
+					
+					if (listErrorLast == '' || (listErrorLast.length - 1) < i
+							|| levelTimeAllLast[i] != listErrorLast[i].key) {
+						var blank = {
+							key : levelTimeAllLast[i],
+							count : 0
+						};
+						listErrorLast.splice(i, 0, blank);
+					}
+					
+					if (listWrongLast == '' || (listWrongLast.length - 1) < i
+							|| levelTimeAllLast[i] != listWrongLast[i].key) {
+						var blank = {
+							key : levelTimeAllLast[i],
+							count : 0
+						};
+						listWrongLast.splice(i, 0, blank);
+					}
+					
+				} 
 			}
 			
-			var lineTotal = [], lineSuccess = [], lineError = [], lineWrong = [];
-			/* var countArr = [];
-			for(var i = 0; i < json.length; i++){
-				countArr.push(json[i].count);
-			} */
+			var lineTotal = [], lineSuccess = [], lineError = [], lineWrong = [], lineLimit = [];
+			var lineTotalLast = [], lineSuccessLast = [], lineErrorLast = [], lineWrongLast = [];
 			
-			for (var i = 0; i < json.length; i++) {
-				//console.log(listError[i]);
+			for (var i = 0; i < levelTimeAll.length; i++) {
 				lineTotal.push({
-					x : i,
-					y : json[i].count
+					x : new Date(parseInt(listCrr[i].key)),
+					y : listCrr[i].count
 				});
 
 				lineSuccess.push({
-					x : i,
+					x : new Date(parseInt(listSuccess[i].key)),
 					y : listSuccess[i].count
 				});
 
 				lineError.push({
-					x : i,
+					x : new Date(parseInt(listError[i].key)),
 					y : listError[i].count
 				});
 				lineWrong.push({
-					x : i,
+					x : new Date(parseInt(listWrong[i].key)),
 					y : listWrong[i].count
 				});
+				
+				lineLimit.push({
+					x : new Date(parseInt(limitError[i].key)),
+					y : limitError[i].count
+				});
+				
+				//compare
+				if(compare== true){
+					lineTotalLast.push({
+						x : new Date(parseInt(listLast[i].key) + oneDayMilis),
+						y : listLast[i].count
+					});
+
+					lineSuccessLast.push({
+						x : new Date(parseInt(listSuccessLast[i].key) + oneDayMilis),
+						y : listSuccessLast[i].count
+					});
+
+					lineErrorLast.push({
+						x : new Date(parseInt(listErrorLast[i].key) + oneDayMilis),
+						y : listErrorLast[i].count
+					});
+					lineWrongLast.push({
+						x : new Date(parseInt(listWrongLast[i].key) + oneDayMilis),
+						y : listWrongLast[i].count
+					});
+				}
 
 			}
-
-			return [ {
-
-				values : lineTotal,
-				key : "Tất cả",
-				color : "#2222ff"
-			}, {
-
-				values : lineSuccess,
-				key : "Thành công",
-				color : "#2ca02c"
+			
+			//compare
+			if(compare == false){
+				return [ {
+	
+					values : lineTotal,
+					key : "Tất cả",
+					color : "#2222ff"
+				}
+				 , {
+	
+					values : lineSuccess,
+					key : "Thành công",
+					color : "#2ca02c"
+				}
+				, {
+	
+					values : lineWrong,
+					key : "Thẻ sai",
+					color : "#DAA520"
+				}  
+				, {
+	
+					values : lineError,
+					key : "Thẻ lỗi",
+					color : "#FF0000"
+				}
+				, {
+	
+					values : lineLimit,
+					key : "Giới hạn lỗi",
+					color : "#FA8072"
+				}
+				];
 			}
-			, {
+			else{
+				return [ {
 
-				values : lineError,
-				key : "Thẻ lỗi",
-				color : "#FF0000"
-			}, {
+					values : lineTotal,
+					key : "Tất cả",
+					color : "#2222ff"
+				}
+				,{
 
-				values : lineWrong,
-				key : "Thẻ sai",
-				color : "#DAA520"
-			} 
-			];
+					values : lineTotalLast,
+					key : "Tất cả ngày hôm trước",
+					color : "#9090ff"
+				}
+				 , {
+
+					values : lineSuccess,
+					key : "Thành công",
+					color : "#2ca02c"
+				}
+				 , {
+
+						values : lineSuccessLast,
+						key : "Thành công ngày hôm trước",
+						color : "#80c680"
+					}
+				, {
+
+					values : lineWrong,
+					key : "Thẻ sai",
+					color : "#DAA520"
+				}  
+				, {
+
+					values : lineWrongLast,
+					key : "Thẻ sai ngày hôm trước",
+					color : "#ecd28f"
+				} 
+				, {
+
+					values : lineError,
+					key : "Thẻ lỗi",
+					color : "#FF0000"
+				}
+				, {
+
+					values : lineErrorLast,
+					key : "Thẻ lỗi ngày hôm trước",
+					color : "#ffb2b2"
+				}
+				, {
+
+					values : lineLimit,
+					key : "Giới hạn lỗi",
+					color : "#FA8072"
+				}
+				];
+			}
 		}
-
 	}
 	//End LINE
 

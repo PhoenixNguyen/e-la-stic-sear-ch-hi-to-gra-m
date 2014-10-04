@@ -3,6 +3,7 @@ package vn.onepay.search.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -188,6 +189,50 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 		  
 		  @SuppressWarnings("unchecked")
 		  Map<String , List<IntervalUnit>> statusHistogramMap = new LinkedMap();
+		  
+		  //To compare with last day -----------------------------------------
+		  @SuppressWarnings("unchecked")
+		  Map<String , List<IntervalUnit>> statusHistogramMapLast = new LinkedMap();
+		  @SuppressWarnings("unchecked")
+		  Map<String , List<String>> keywordsLast = new LinkedMap();
+		  keywordsLast.putAll(keywords);
+		  //Operator time range:
+		  try{
+		      if(!time_search.equals("")){
+		    	  Date ts = df.parse(time_search);
+		    	  Calendar c = Calendar.getInstance();
+		    	  c.setTime(ts);
+		    	  c.add(Calendar.DAY_OF_MONTH, -1);
+		    	  
+		    	  String tsStr = df.format(c.getTime());
+		    	  System.out.println("time last: "+tsStr);
+		    	  
+			      List<String> timeRanges = Arrays.asList(new String[]{tsStr, tsStr}); //"06/08/2014", "07/08/2014"
+			      if(timeRanges != null && timeRanges.size() > 0){
+			    	String operator = "_operator_time_range";
+			    	keywordsLast.put("timestamp" + operator, timeRanges);
+			      }
+			  }else{
+				  Date ts = new Date();
+				  Calendar c = Calendar.getInstance();
+		    	  c.setTime(ts);
+		    	  c.add(Calendar.DAY_OF_MONTH, -1);
+		    	  
+		    	  String today = df.format(c.getTime());
+				  System.out.println("today: "+today);
+				
+				  List<String> timeRanges = Arrays.asList(new String[]{today, today});
+			      if(timeRanges != null && timeRanges.size() > 0){
+			    	String operator = "_operator_time_range";
+			    	keywordsLast.put("timestamp" + operator, timeRanges);
+			      }
+			  }
+		  }
+		  catch(Exception e){
+			  e.printStackTrace();
+		  }
+		  //end compare ------------------------------------------------------
+		    
 		  //field filter
 		  List<String> fieldHistogram = new ArrayList<String>(); 
 		  fieldHistogram.add(ALL_STATUS);
@@ -212,21 +257,21 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 	    	    String fieldFilter = "status";
 	    	    String operator = "_operator_in";
 	    	    for(String status : fieldHistogram){
-	    	    	if(status.equalsIgnoreCase(ALL_STATUS)){
-	    	    		statusHistogramMap.put(status, elasticSearch.getHistogramFacet(field, fields, terms, keywords, facetSize, vn.onepay.search.entities.CardCdr.class));
+    	    		if(status.equalsIgnoreCase(SUCCESS_STATUS)){
+    	        		keywords.put(fieldFilter + operator, Arrays.asList(new String[]{ChargeStatus.SUCCESS_STATUS}));
+    	        		keywordsLast.put(fieldFilter + operator, Arrays.asList(new String[]{ChargeStatus.SUCCESS_STATUS}));
 	    	    	}else
-	    	    		if(status.equalsIgnoreCase(SUCCESS_STATUS)){
-	    	        		keywords.put(fieldFilter + operator, Arrays.asList(new String[]{ChargeStatus.SUCCESS_STATUS}));
-	    	        		statusHistogramMap.put(status, elasticSearch.getHistogramFacet(field, fields, terms, keywords, facetSize, vn.onepay.search.entities.CardCdr.class));
+	    	    		if(status.equalsIgnoreCase(WRONG_STATUS)){
+	    	    			keywords.put(fieldFilter + operator, ChargeStatus.ALL_CHARGING_WRONG_STATUS);
+	    	    			keywordsLast.put(fieldFilter + operator, ChargeStatus.ALL_CHARGING_WRONG_STATUS);
 		    	    	}else
-		    	    		if(status.equalsIgnoreCase(WRONG_STATUS)){
-		    	    			keywords.put(fieldFilter + operator, ChargeStatus.ALL_CHARGING_WRONG_STATUS);
-		    	    			statusHistogramMap.put(status, elasticSearch.getHistogramFacet(field, fields, terms, keywords, facetSize, vn.onepay.search.entities.CardCdr.class));
-			    	    	}else
-			    	    		if(status.equalsIgnoreCase(ERROR_STATUS)){
-			    	    			keywords.put(fieldFilter + operator, ChargeStatus.ALL_CHARGING_ERROR_STATUS);
-			    	    			statusHistogramMap.put(status, elasticSearch.getHistogramFacet(field, fields, terms, keywords, facetSize, vn.onepay.search.entities.CardCdr.class));
-				    	    	}
+		    	    		if(status.equalsIgnoreCase(ERROR_STATUS)){
+		    	    			keywords.put(fieldFilter + operator, ChargeStatus.ALL_CHARGING_ERROR_STATUS);
+		    	    			keywordsLast.put(fieldFilter + operator, ChargeStatus.ALL_CHARGING_ERROR_STATUS);
+			    	    	}
+	    	    	
+	    	    	statusHistogramMap.put(status, elasticSearch.getHistogramFacet(field, fields, terms, keywords, facetSize, vn.onepay.search.entities.CardCdr.class));
+	    	    	statusHistogramMapLast.put(status, elasticSearch.getHistogramFacet(field, fields, terms, keywordsLast, facetSize, vn.onepay.search.entities.CardCdr.class));
 	    	    	
 	    	    }
 				
@@ -257,6 +302,7 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 		model.put("facetsMap", facetsMap);
 		model.put("facetAllsMap", facetAllsMap);
 		model.put("statusHistogramMap", statusHistogramMap);
+		model.put("statusHistogramMapLast", statusHistogramMapLast);
 		
 	    Date end = new Date();
 	    Long duration = end.getTime() - start.getTime();

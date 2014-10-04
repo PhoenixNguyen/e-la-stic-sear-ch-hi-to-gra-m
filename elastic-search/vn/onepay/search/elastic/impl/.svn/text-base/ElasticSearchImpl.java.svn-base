@@ -253,7 +253,7 @@ public class ElasticSearchImpl implements ElasticSearch{
 		if(!field.equals("")){
 			if(typeQuery.equalsIgnoreCase(QUERY_FACET)){
 				System.out.println("QUERY_FACET _______________ ");
-				queryBuilder.withFacet(new TermFacetRequestBuilder(field).applyQueryFilter().fields(field).ascCount().size(facetSize).build());
+				queryBuilder.withFacet(new TermFacetRequestBuilder(field).applyQueryFilter().fields(field).descCount().size(facetSize).build());
 			}
 			if(typeQuery.equalsIgnoreCase(QUERY_HISTOGRAM)){
 				System.out.println("QUERY_HISTOGRAM _______________ ");
