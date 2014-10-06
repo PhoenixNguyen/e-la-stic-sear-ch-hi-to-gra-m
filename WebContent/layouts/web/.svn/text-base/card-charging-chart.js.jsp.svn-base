@@ -39,7 +39,7 @@
 	
 	/* alert(listAllLast.length);
 	alert(listAll.length); */
-	draw(listAll, listAllLast, true);
+	draw(listAll, listAllLast, $('#comparation').is(':checked'));
 	
 	$(document).ready(function(){
 		$('#comparation').change('click', function(){

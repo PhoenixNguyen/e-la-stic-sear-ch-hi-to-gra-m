@@ -82,7 +82,7 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 	  //Filter histograms
 	    List<String> filter_merchant = null;
 	    List<String> filter_provider = null;
-	    List<String> filter_card_type = null;
+	    //List<String> filter_card_type = null;
 	    
 	    if(request.getParameterValues("filter_merchant") != null){
 	    	String merchantParam= StringUtils.trimToEmpty(request.getParameter("filter_merchant"));
@@ -90,8 +90,8 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 	    }
 	    if(request.getParameterValues("filter_provider") != null)
 	    	filter_provider = Arrays.asList(request.getParameterValues("filter_provider"));
-	    if(request.getParameterValues("filter_card_type") != null)
-	    	filter_card_type = Arrays.asList(request.getParameterValues("filter_card_type"));
+//	    if(request.getParameterValues("filter_card_type") != null)
+//	    	filter_card_type = Arrays.asList(request.getParameterValues("filter_card_type"));
 	    
 	  /*//Auto param 
   		for(String field : fieldMaps.keySet()){
@@ -100,19 +100,19 @@ public class CardCdrDashboardController extends AbstractProtectedController{
   			terms.add(param);
   		}*/
 	    
-	    //click on facet
+	    //click on facet card type
 	    if(StringUtils.isNotBlank(request.getParameter("type"))){
 			terms.add(StringUtils.trimToEmpty(request.getParameter("type")));
 	    }
 	    else{
 	    	terms.add("");
 		    //Operator IN:
-		    if(filter_card_type != null && filter_card_type.size() > 0){
+		    /*if(filter_card_type != null && filter_card_type.size() > 0){
 		    	String operator = "_operator_in";
 		    	keywords.put("type" + operator, filter_card_type);
-		    }
+		    }*/
 	    }
-	    //click on facet
+	    //click on facet paymentprovider
 	    if(StringUtils.isNotBlank(request.getParameter("paymentProvider"))){
 			terms.add(StringUtils.trimToEmpty(request.getParameter("paymentProvider")));
 	    }
@@ -124,7 +124,7 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 		    	keywords.put("paymentProvider" + operator, filter_provider);
 		    }
 	    }
-	    //click on facet
+	    //click on facet merchant
 	    if(StringUtils.isNotBlank(request.getParameter("merchant"))){
 			terms.add(StringUtils.trimToEmpty(request.getParameter("merchant")));
 	    }

@@ -180,8 +180,9 @@ $(function(){
 									<a href="#">Lọc kết quả</a>
 								</h3>
 							</div>
+							<form action="card-dashboard.html" method="get" name="filter_histogram">
 							<div class="box_locketqua">
-								<form action="card-dashboard.html" method="get" name="filter_histogram">
+								
 									<c:forEach items="${model.fieldMaps }" var="map">
 									
 										<c:if test="${param[map.key] != null && param[map.key] != ''  }">
@@ -245,7 +246,7 @@ $(function(){
 										
 									</div>
 									
-									<div class="filter_row">
+									<%-- <div class="filter_row">
 										<fieldset class="fieldset_filter">
 											<legend>
 												<input type="checkbox" name="telcoAll" value="telcoAll" id="telcoAll" class="chck_filter" ${fn:contains(param.telcoAll,'telcoAll')?'checked="checked"':'' }  /> Loại thẻ
@@ -277,20 +278,27 @@ $(function(){
 												</c:forEach>
 											</div>
 										</fieldset>
-									</div>
+									</div> --%>
 									
 									<!-- <div class="filter_row" style="text-align: center;">
 										
 						               	<input  style="margin-top: 0px;"  class="btn_greensmall" type="submit" value="Lọc" />
 						               	
 					                </div> -->
-								</form>
+								
 								
 								<div class="filter_row">
 									
 								</div>
 							</div>
 							
+							<span style="display: block; float: right; margin-top: 10px">
+								
+								<input type="checkbox" id="comparation" name="comparation" ${param.comparation == 'on'?'checked':'' }/>
+								<label>So sánh</label>
+							</span>
+							
+							</form>
 							<c:choose>
 								<c:when test="${model.total > 0}">
 									<span class="pagebanner"> Tổng cộng có ${model.total} kết quả tìm thấy. 
@@ -303,11 +311,6 @@ $(function(){
 									</span>
 								</c:otherwise>
 							</c:choose>
-							<span style="display: block; float: right; margin-top: 10px">
-								
-								<input type="checkbox" checked="checked" id="comparation"/>
-								<label>So sánh</label>
-							</span>
 							<br/>
 							<!-- End Filter -->
 							
