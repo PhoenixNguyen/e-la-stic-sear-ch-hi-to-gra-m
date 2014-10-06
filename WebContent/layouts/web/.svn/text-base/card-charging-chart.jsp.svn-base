@@ -196,6 +196,10 @@ $(function(){
 										<script type="text/javascript">
 											
 											$(document).ready(function(){
+												//click provider
+												$('form[name=filter_histogram] select[name=filter_provider]').live('click', function(){
+														$('form[name=filter_histogram]').submit();
+												});
 												//On change
 												$('input[name=time_search]').change(function(){
 													$('form[name=filter_histogram]').submit();
@@ -229,21 +233,14 @@ $(function(){
 										<input type="text" name="filter_merchant" class="text_filter" placeholder="Nhập tên merchant" value="${param.filter_merchant }"/>
 										
 										<label class="label_filter">Nhà cung cấp:</label>
-										<c:set var="allPv" value="," />
-										<c:forEach var="pv" items="${paramValues.filter_provider}">
-											<c:set var="allPv" value="${allPv}${pv}," />
-										</c:forEach>
-										<select id="filter_provider" class="select_filter" name="filter_provider" multiple="multiple" style="width:200px; padding: 6px; margin-left: 10px;">
-										
-											<c:forEach var="provider" items="${model.facetAllsMap['paymentProvider'] }">
-												<c:set var="provider2" value=",${provider.getTerm()}," />
-												<option value="${provider.getTerm() }" ${fn:contains(allPv, provider2)?'selected':'' }>
-													<c:out value="${provider.getTerm()}"/>
-												</option>
-												<c:set var="listForSearchPv" value="${listForSearchPv}<option value='${provider.getTerm()}'>${provider.getTerm()}</option>" />
-											</c:forEach>
+										<select class="select_filter" name="filter_provider" style="width:250px; padding: 6px; margin-left: 10px;">
+												<option value="" ${param.filter_provider == ''?'selected':''}>Tất cả</option>
+												<c:forEach var="provider" items="${model.facetAllsMap['paymentProvider'] }">
+														<option value="${provider.getTerm() }" ${param.filter_provider == provider.getTerm()?'selected':''}>
+															<c:out value="${provider.getTerm()}"/>
+														</option>
+												</c:forEach>
 										</select>
-										
 									</div>
 									
 									<%-- <div class="filter_row">

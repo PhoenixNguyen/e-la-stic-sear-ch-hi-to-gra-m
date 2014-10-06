@@ -79,17 +79,18 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 	    //(Regex Search*)
 	    @SuppressWarnings("unchecked")
 		Map<String , List<String>> keywords = new LinkedMap();
-	  //Filter histograms
+	    //Filter histograms
 	    List<String> filter_merchant = null;
-	    List<String> filter_provider = null;
+	    //List<String> filter_provider = null;
 	    //List<String> filter_card_type = null;
 	    
 	    if(request.getParameterValues("filter_merchant") != null){
 	    	String merchantParam= StringUtils.trimToEmpty(request.getParameter("filter_merchant"));
 	    	filter_merchant = Arrays.asList(new String[]{merchantParam});
 	    }
-	    if(request.getParameterValues("filter_provider") != null)
-	    	filter_provider = Arrays.asList(request.getParameterValues("filter_provider"));
+	    
+//	    if(request.getParameterValues("filter_provider") != null)
+//	    	filter_provider = Arrays.asList(new String[]{StringUtils.trimToEmpty(request.getParameter("filter_provider"))});
 //	    if(request.getParameterValues("filter_card_type") != null)
 //	    	filter_card_type = Arrays.asList(request.getParameterValues("filter_card_type"));
 	    
@@ -117,12 +118,17 @@ public class CardCdrDashboardController extends AbstractProtectedController{
 			terms.add(StringUtils.trimToEmpty(request.getParameter("paymentProvider")));
 	    }
 	    else{
-	    	terms.add("");
+	    	
+	    	if(StringUtils.isNotBlank(request.getParameter("filter_provider"))){
+				terms.add(StringUtils.trimToEmpty(request.getParameter("filter_provider")));
+		    }
+	    	else
+	    		terms.add("");
 		    //Operator IN:
-		    if(filter_provider != null && filter_provider.size() > 0){
+		   /* if(filter_provider != null && filter_provider.size() > 0){
 		    	String operator = "_operator_in";
 		    	keywords.put("paymentProvider" + operator, filter_provider);
-		    }
+		    }*/
 	    }
 	    //click on facet merchant
 	    if(StringUtils.isNotBlank(request.getParameter("merchant"))){
